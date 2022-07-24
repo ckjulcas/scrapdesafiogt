@@ -134,7 +134,7 @@ def scrapnit(n):
 # 02 Ejecucion test function
 ####
 
-df = pd.read_excel('scrapdesafiogt/input/proveedores.xlsx')
+df = pd.read_excel('input/proveedores.xlsx')
 df.shape
 #select unique NIT codes
 nits = df['NIT'].unique()
@@ -146,14 +146,11 @@ nits = df['NIT'].unique()
 nn = pd.DataFrame()
 g  = 1
 
-while len(nits)>0:
-    print(len(nits))
-    for i in nits:
-        print(round((g/len(nits))*100,2),"%  ", i)
-        w  = scrapnit(i)
-        nn = pd.concat([nn, w], ignore_index=True)
-        g  = g + 1
-    nits = list(nn['n'][nn['estadoscrap']=="fail"])
+for i in nits:
+    print(round((g/len(nits))*100,2),"%  ", i)
+    w  = scrapnit(i)
+    nn = pd.concat([nn, w], ignore_index=True)
+    g  = g + 1
 
 #filter especialidades and code with ok scrap
 ww = nn[nn['estadoscrap']=="ok"][['n', 'espe']]
